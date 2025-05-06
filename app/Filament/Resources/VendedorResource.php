@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\VendedorResource\Pages;
 use App\Models\User;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,13 +13,19 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class UserResource extends Resource
+class VendedorResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationGroup = 'Comercial';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationLabel = 'Vendedores';
+
+    protected static ?string $modelLabel = 'Vendedor';
+
+    protected static ?string $pluralModelLabel = 'Vendedores';
+
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -35,39 +40,18 @@ class UserResource extends Resource
 
                     TextInput::make('email')
                         ->label('Email')
-                        ->email()
                         ->required()
+                        ->email()
                         ->maxLength(255),
-
-                    Select::make('role_id')
-                        ->label('Papel')
-                        ->relationship('role', 'name')
-                        ->required(),
 
                     TextInput::make('password')
                         ->label('Senha')
                         ->password()
-                        ->dehydrated(fn ($state) => filled($state))
-                        ->required(fn ($context) => $context === 'create')
+                        ->required(fn (string $context) => $context === 'create')
+                        ->dehydrateStateUsing(fn ($state) => \Hash::make($state))
                         ->maxLength(255),
-
-                    TextInput::make('password_confirmation')
-                        ->label('Confirmar Senha')
-                        ->password()
-                        ->dehydrated(false)
-                        ->required(fn ($context) => $context === 'create'),
                 ]),
-
-                Select::make('vendedoresRelacionados')
-                    ->label('Vendedores Gerenciados')
-                    ->multiple()
-                    ->relationship('vendedoresRelacionados', 'name')
-                    ->preload()
-                    ->searchable()
-                    ->hidden(fn ($livewire) => $livewire->record?->role?->name !== 'Gerente Nacional'
-                    && $livewire->record?->role?->name !== 'Gerente Comercial'),
             ]);
-
     }
 
     public static function table(Table $table): Table
@@ -84,7 +68,6 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\ViewAction::make()->iconButton(), // se quiser ver detalhes
                 Tables\Actions\EditAction::make()->iconButton(),
             ])
             ->bulkActions([
@@ -104,16 +87,16 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
-            'view' => Pages\ViewUser::route('/{record}/view'),
+            'index' => Pages\ListVendedors::route('/'),
+            'create' => Pages\CreateVendedor::route('/create'),
+            'edit' => Pages\EditVendedor::route('/{record}/edit'),
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with(['gerentesRelacionados', 'role']);
+            ->whereHas('role', fn ($q) => $q->where('name', 'vendedor'))
+            ->whereHas('gerentesRelacionados', fn ($q) => $q->where('id', auth()->id()));
     }
 }
