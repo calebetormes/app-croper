@@ -22,6 +22,12 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
+    // Adicione esse método na classe UserResource
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->role?->name === 'Admin';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
