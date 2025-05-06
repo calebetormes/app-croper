@@ -36,16 +36,26 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    // Usuário como gerente (relacionamento com vendedores)
-    public function vendedores()
+    // Gerente → Vendedores
+    public function vendedoresRelacionados()
     {
-        return $this->hasMany(GerenteVendedor::class, 'gerente');
+        return $this->belongsToMany(
+            User::class,
+            'gerente_vendedor',
+            'gerente',
+            'vendedor'
+        );
     }
 
-    // Usuário como vendedor (relacionamento com gerentes)
-    public function gerentes()
+    // Vendedor → Gerentes
+    public function gerentesRelacionados()
     {
-        return $this->hasMany(GerenteVendedor::class, 'vendedor');
+        return $this->belongsToMany(
+            User::class,
+            'gerente_vendedor',
+            'vendedor',
+            'gerente'
+        );
     }
 
     /*

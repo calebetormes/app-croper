@@ -57,6 +57,14 @@ class UserResource extends Resource
                         ->required(fn ($context) => $context === 'create'),
                 ]),
 
+                Select::make('vendedoresRelacionados')
+                    ->label('Vendedores Gerenciados')
+                    ->multiple()
+                    ->relationship('vendedoresRelacionados', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->hidden(fn ($livewire) => $livewire->record?->role?->name !== 'Gerente Nacional' && $livewire->record?->role?->name !== 'Gerente Comercial'),
+
             ]);
     }
 
@@ -97,6 +105,7 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            'view' => Pages\ViewUser::route('/{record}/view'),
         ];
     }
 }
