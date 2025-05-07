@@ -14,9 +14,13 @@ class PrincipioAtivoResource extends Resource
 {
     protected static ?string $model = PrincipioAtivo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-beaker';
+    protected static ?string $navigationIcon = 'heroicon-o-ellipsis-horizontal';
 
-    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?string $navigationGroup = 'Produtos';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Principios Ativos';
 
     public static function form(Form $form): Form
     {

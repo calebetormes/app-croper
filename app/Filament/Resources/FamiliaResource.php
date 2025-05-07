@@ -14,11 +14,13 @@ class FamiliaResource extends Resource
 {
     protected static ?string $model = Familia::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
+    protected static ?string $navigationIcon = 'heroicon-o-ellipsis-horizontal';
 
-    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?string $navigationGroup = 'Produtos';
 
-    protected static ?string $navigationLabel = '. Familias';
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Familias';
 
     public static function form(Form $form): Form
     {

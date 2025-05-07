@@ -17,11 +17,13 @@ class ProdutoResource extends Resource
 {
     protected static ?string $model = Produto::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
-    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?string $navigationGroup = 'Produtos';
 
-    protected static ?string $navigationLabel = 'Produtos';
+    protected static ?string $navigationLabel = 'PRODUTOS';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {

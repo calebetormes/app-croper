@@ -14,9 +14,13 @@ class TipoDePesoResource extends Resource
 {
     protected static ?string $model = TipoDePeso::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-scale';
+    protected static ?string $navigationIcon = 'heroicon-o-ellipsis-horizontal';
 
-    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?string $navigationGroup = 'Produtos';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Pesos/Medidas';
 
     public static function form(Form $form): Form
     {

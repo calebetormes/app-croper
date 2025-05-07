@@ -14,11 +14,13 @@ class MarcaComercialResource extends Resource
 {
     protected static ?string $model = MarcaComercial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-ellipsis-horizontal';
 
-    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?string $navigationGroup = 'Produtos';
 
-    protected static ?string $navigationLabel = '. Marcas';
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Marcas';
 
     public static function form(Form $form): Form
     {
