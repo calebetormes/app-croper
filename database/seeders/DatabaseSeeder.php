@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             MarcasComerciaisSeeder::class,
             TiposDePesoSeeder::class,
             FamiliaSeeder::class,
+            UserFakeSeeder::class
         ]);
     }
 }

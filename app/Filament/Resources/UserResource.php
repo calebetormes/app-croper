@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\SelectFilter;
 
 class UserResource extends Resource
 {
@@ -87,11 +88,17 @@ class UserResource extends Resource
                 //
                 TextColumn::make('name')->label('Nome')->sortable()->searchable(),
                 TextColumn::make('email')->label('Email')->sortable()->searchable(),
-                TextColumn::make('role.name')->label('Papel'),
-                TextColumn::make('created_at')->label('Criado em')->dateTime('d/m/Y H:i'),
+                TextColumn::make('role.name')->label('Função'),
+                //TextColumn::make('created_at')->label('Criado em')->dateTime('d/m/Y H:i'),
             ])
             ->filters([
                 //
+                // ✅ Filtro por papel (role)
+                SelectFilter::make('role_id')
+                ->label('Papel')
+                ->relationship('role', 'name')
+                ->searchable()
+                ->preload(),
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make()->iconButton(), // se quiser ver detalhes
