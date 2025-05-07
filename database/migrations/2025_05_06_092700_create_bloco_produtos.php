@@ -39,7 +39,12 @@ return new class extends Migration
             // $table->timestamps();
         });
 
-        // Tabela principal: produtos
+        /*
+        * Tabela principal: produtos
+        * Foi removido pois foi criado outro migrate para inserir a tabela produtos
+        */
+
+        /*
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
 
@@ -54,12 +59,13 @@ return new class extends Migration
 
             $table->timestamps();
         });
+        */
     }
 
     public function down(): void
     {
         // Ordem reversa para evitar erros
-        Schema::dropIfExists('produtos');
+        // Schema::dropIfExists('produtos');
         Schema::dropIfExists('familia');
         Schema::dropIfExists('tipos_de_peso');
         Schema::dropIfExists('marcas_comerciais');

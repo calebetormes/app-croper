@@ -36,8 +36,8 @@ Table produtos { //migrate ok
   classe int [ref: > produtos_classes.id]
   principios_ativo int [ref: > principios_ativos.id]
   marca_comercial int [ref: > marcas_comerciais.id]
-  tipos_de_peso varchar [ref: > tipos_de_peso.id]
-  familia varchar [ref: > familia.id]
+  tipos_de_peso int [ref: > tipos_de_peso.id]
+  familia int [ref: > familia.id]
   apresentacao varchar
   dose_sugerida_hectare varchar
 }
