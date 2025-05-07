@@ -65,6 +65,8 @@ class UserResource extends Resource
                         ->required(fn ($context) => $context === 'create'),
                 ]),
 
+                // FORMA GBR PARA VINCULAR
+                /*
                 Select::make('vendedoresRelacionados')
                     ->label('Vendedores Gerenciados')
                     ->multiple()
@@ -73,6 +75,7 @@ class UserResource extends Resource
                     ->searchable()
                     ->hidden(fn ($livewire) => $livewire->record?->role?->name !== 'Gerente Nacional'
                     && $livewire->record?->role?->name !== 'Gerente Comercial'),
+                */
             ]);
 
     }

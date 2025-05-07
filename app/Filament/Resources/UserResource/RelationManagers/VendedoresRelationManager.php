@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class VendedoresRelationManager extends RelationManager
 {
@@ -37,12 +38,21 @@ class VendedoresRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\AttachAction::make()
                     ->recordSelect(fn () => Select::make('recordId')
-                        ->label('Usuário')
+                        ->label('Vendedor')
                         ->searchable()
                         ->preload()
-                        ->getSearchResultsUsing(fn (string $search) => \App\Models\User::query()
+                        /*->getSearchResultsUsing(fn (string $search) => \App\Models\User::query()
                             ->where('name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%")
+                            ->limit(20)
+                            ->pluck('name', 'id')
+                        )*/
+                        ->getSearchResultsUsing(fn (string $search) => \App\Models\User::query()
+                            ->whereHas('role', fn ($query) => $query->where('name', 'Vendedor')) // Filtra por papel
+                            ->where(function ($query) use ($search) {
+                                $query->where('name', 'like', "%{$search}%")
+                                    ->orWhere('email', 'like', "%{$search}%");
+                            })
                             ->limit(20)
                             ->pluck('name', 'id')
                         )
@@ -61,5 +71,10 @@ class VendedoresRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return in_array($ownerRecord->role?->name, ['Gerente Nacional', 'Gerente Comercial']);
     }
 }
