@@ -27,6 +27,12 @@ class VendedorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+        // Adicione esse método na classe UserResource
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->role?->name === 'Gerente Comercial';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
