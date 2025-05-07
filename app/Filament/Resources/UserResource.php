@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers\VendedoresRelationManager;
 use App\Models\User;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -104,6 +105,7 @@ class UserResource extends Resource
     {
         return [
             //
+            VendedoresRelationManager::class,
         ];
     }
 
